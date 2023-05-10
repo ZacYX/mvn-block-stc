@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelOperator {
     private static final String FIRST_REASON_SHEET_NAME = "首因";
     private static final String ALL_REASON_SHEET_NAME = "全因";
+    private static final String ALL_REASON_COUNT_SHEET_NAME = "全因数字";
 
     private FileInputStream updaterFileInputStream;
     private FileInputStream statisticResultFileInputStream;
@@ -22,6 +23,7 @@ public class ExcelOperator {
     private Sheet updaterSheet;
     private Sheet firstReasonSheet;
     private Sheet allReasonSheet;
+    private Sheet allReasonCountSheet;
 
     public ExcelOperator(String updaterFilePath, String statisticResultFilePath, String newStatisticResultFilePat) {
         try {
@@ -42,6 +44,7 @@ public class ExcelOperator {
         this.updaterSheet = (Sheet) updaterWorkbook.getSheetAt(0); 
         this.firstReasonSheet = (Sheet) statisticResultWorkbook.getSheet(FIRST_REASON_SHEET_NAME);
         this.allReasonSheet = (Sheet) statisticResultWorkbook.getSheet(ALL_REASON_SHEET_NAME);
+        this.allReasonCountSheet = (Sheet) statisticResultWorkbook.getSheet(ALL_REASON_COUNT_SHEET_NAME);
     }
 
     public void close() {
@@ -67,6 +70,10 @@ public class ExcelOperator {
 
     public Sheet getAllReasonSheet() {
         return this.allReasonSheet;
+    }
+
+    public Sheet getAllReasonCountSheet() {
+        return this.allReasonCountSheet;
     }
 
     // public Workbook getUpdaterWorkbook() {

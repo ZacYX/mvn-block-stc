@@ -5,12 +5,13 @@ package ca.zac.mvnstc;
 
 import java.util.ArrayList;
 
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.*;
 
-class ReasonStat extends StatBase {
+class ReasonCountStat extends StatBase {
 
-    public ReasonStat(ArrayList<StockInfo> stockInfoList, Sheet reasonSheet, Integer numberOfReasons) {
+    Double stockCount;
+
+    public ReasonCountStat(ArrayList<StockInfo> stockInfoList, Sheet reasonSheet, Integer numberOfReasons) {
         super(stockInfoList, reasonSheet, numberOfReasons);
     }
 
@@ -32,18 +33,12 @@ class ReasonStat extends StatBase {
                     }
                     //Get content of the 2 cells
                      category =  cellWithCategory.getStringCellValue().trim();
-                     stockList =  cellWithStockList.getStringCellValue();
+                     stockCount =  cellWithStockList.getNumericCellValue();
                     //Compare reason in arraylist with category in reason statistic excel
                     if (stockInfoList.get(i).getReason()[ reasonIndex].equalsIgnoreCase( category)) {
-                        //Write increase dates that is greater than 1 at the end of each stock name
-                        if(stockInfoList.get(i).getIncreaseDates() > 1) {
-                             stockList += stockInfoList.get(i).getName() 
-                                + stockInfoList.get(i).getIncreaseDates().intValue() + "\n";
-                        } else {
-                             stockList += stockInfoList.get(i).getName() + "\n";
-                        }
-                         cellWithStockList.setCellValue( stockList);
-                         oldCategory = true;
+                        stockCount += 1;
+                        cellWithStockList.setCellValue( stockCount);
+                        oldCategory = true;
                         break;   //Category found, do not need to find the rows left
                     }
                 }
@@ -51,12 +46,7 @@ class ReasonStat extends StatBase {
                 if ( oldCategory == false) {
                     Row newRow =  reasonSheet.createRow( reasonSheet.getLastRowNum() + 1);
                     newRow.createCell(CATEGORY_INDEX).setCellValue(stockInfoList.get(i).getReason()[ reasonIndex]);
-                    if (stockInfoList.get(i).getIncreaseDates() > 1) {
-                        newRow.createCell(STOCK_LIST_INDEX).setCellValue(stockInfoList.get(i).getName() 
-                            + stockInfoList.get(i).getIncreaseDates().intValue() + "\n"); 
-                    } else {
-                        newRow.createCell(STOCK_LIST_INDEX).setCellValue(stockInfoList.get(i).getName() + "\n"); 
-                    }
+                    newRow.createCell(STOCK_LIST_INDEX).setCellValue(1); 
                 }
             }
         }
