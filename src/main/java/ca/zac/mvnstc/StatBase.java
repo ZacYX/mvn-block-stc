@@ -9,7 +9,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Cell;
 
 public class StatBase {
-    
+
     static final int HEADER_INDEX = 0;
     static final int CATEGORY_INDEX = 0;
     static final int STOCK_LIST_INDEX = 1;
@@ -20,13 +20,13 @@ public class StatBase {
     Row currentRow;
     Cell cellWithCategory;
     Cell cellWithStockList;
-    String category;    //Reason in updater
+    String category; // Reason in updater
     String stockList;
     Boolean oldCategory;
 
-    Integer reasonIndex;
+    Integer reasonIndex; // Concept reason index
     String sheetName;
-    Integer numberOfReasons;
+    Integer numberOfReasons; // Many 10% increased stocks has more than one concept reason
 
     public StatBase(ArrayList<StockInfo> stockInfoList, Sheet reasonSheet, Integer numberOfReasons) {
         this.stockInfoList = stockInfoList;
@@ -45,6 +45,7 @@ public class StatBase {
     public void setReasonIndex(Integer reasonIndex) {
         this.reasonIndex = reasonIndex;
     }
+
     public Integer getReasonIndex() {
         return this.reasonIndex;
     }
@@ -52,20 +53,26 @@ public class StatBase {
     public void setSheetName(String sheetName) {
         this.sheetName = sheetName;
     }
+
     public String getSheetName() {
-        return  sheetName;
+        return sheetName;
     }
 
     void prepare() {
-        //Insert a blank column after the first column to the dataSheet, adding 3 to solve outofbounds exception
-         reasonSheet.shiftColumns(1, 
-             reasonSheet.getRow(ReasonStat.HEADER_INDEX).getLastCellNum() + 3, 1);
+        // Write first cell of header for a blank sheet
+        if (reasonSheet.getLastRowNum() == -1) {
+            Row newRow = reasonSheet.createRow(StatBase.HEADER_INDEX);
+            newRow.createCell(CATEGORY_INDEX).setCellValue("类别");
+        }
+        // Insert a blank column after the first column to the dataSheet, adding 3 to
+        // solve outofbounds exception
+        reasonSheet.shiftColumns(1,
+                reasonSheet.getRow(StatBase.HEADER_INDEX).getLastCellNum() + 3, 1);
         Date date = new Date();
         SimpleDateFormat dateFormatForTitle = new SimpleDateFormat("MMdd");
-         reasonSheet.getRow(ReasonStat.HEADER_INDEX).createCell(STOCK_LIST_INDEX).setCellValue(
-            dateFormatForTitle.format(date) + " " +  stockInfoList.size());
+        reasonSheet.getRow(StatBase.HEADER_INDEX).createCell(STOCK_LIST_INDEX).setCellValue(
+                dateFormatForTitle.format(date) + " " + stockInfoList.size());
     }
-
 
     void insert() {
 

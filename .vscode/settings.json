@@ -1,8 +1,16 @@
 {
     "maven.terminal.favorites": [
         {
-            "command": "compile",
+            "command": "clean package",
             "debug": false
-        }
+        },
+        {
+            "command": "clean",
+            "debug": false
+        },
+        {
+            "command": "package",
+            "debug": false
+        },
     ]
 }
