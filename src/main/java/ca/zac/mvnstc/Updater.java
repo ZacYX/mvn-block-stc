@@ -110,25 +110,26 @@ class Updater {
                 // + " Reason, " + stockInfo.getReason()[0]
                 // + " Rate, " + stockInfo.getIncreaseRate()
                 // + " dates, " + stockInfo.getIncreaseDates());
+
+                // Not "--" and increase rate > 0.09 means a valid info, and add it to the list
+                if (
+                // !this.stockInfo.getReason()[0].equals(StockInfo.CELL_EMPTY_STRING)
+                this.stockInfo.getIncreaseRate() > StockInfo.STOCK_INCREASE_FLAG
+                        && this.stockInfo.getName().length() > 0
+                        && this.stockInfo.getIncreaseDates() > 0) {
+                    this.stockInfoList.add(this.stockInfo);
+                    this.stockInfo = new StockInfo();
+                } else {
+                    /*
+                     * System.out.println(this.stockInfo.getName() + "    "
+                     * + this.stockInfo.getReason()[0] + "    "
+                     * + this.stockInfo.getIncreaseRate() + "    "
+                     * + this.stockInfo.getIncreaseDates());
+                     */
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 continue;
-            }
-            // Not "--" and increase rate > 0.09 means a valid info, and add it to the list
-            if (
-            // !this.stockInfo.getReason()[0].equals(StockInfo.CELL_EMPTY_STRING)
-            this.stockInfo.getIncreaseRate() > StockInfo.STOCK_INCREASE_FLAG
-                    && this.stockInfo.getName().length() > 0
-                    && this.stockInfo.getIncreaseDates() > 0) {
-                this.stockInfoList.add(this.stockInfo);
-                this.stockInfo = new StockInfo();
-            } else {
-                /*
-                 * System.out.println(this.stockInfo.getName() + "    "
-                 * + this.stockInfo.getReason()[0] + "    "
-                 * + this.stockInfo.getIncreaseRate() + "    "
-                 * + this.stockInfo.getIncreaseDates());
-                 */
             }
         }
         System.out.println("Total items: " + stockInfoList.size());
