@@ -13,6 +13,17 @@ public class DetailedIndustryStat extends StatBase {
 
     @Override
     void insert() {
+        // Loop excel and set the second column cells 0
+        for (int j = 1; j <= reasonSheet.getLastRowNum(); j++) {
+            currentRow = reasonSheet.getRow(j);
+            if (currentRow == null) {
+                continue;
+            }
+            if (currentRow.getCell(SECOND_COLUMN) == null) {
+                continue;
+            }
+            currentRow.getCell(SECOND_COLUMN).setCellValue(0);
+        }
         // Loop stock array list
         for (int i = 0; i < stockInfoList.size(); i++) {
             // Loop excel
@@ -29,6 +40,8 @@ public class DetailedIndustryStat extends StatBase {
                     } else {
                         newRow.createCell(STOCK_LIST_INDEX).setCellValue(stockInfoList.get(i).getName() + "\n");
                     }
+                    // write the second column with 1
+                    newRow.createCell(SECOND_COLUMN).setCellValue(1);
                     break;
                 }
                 // Compare existing category
@@ -55,6 +68,9 @@ public class DetailedIndustryStat extends StatBase {
                 }
                 stockList += "\n";
                 cellWithStockList.setCellValue(stockList);
+                // update number of the second colunm
+                currentRow.getCell(SECOND_COLUMN)
+                        .setCellValue(currentRow.getCell(SECOND_COLUMN).getNumericCellValue() + 1);
                 // Don't need to compare the following rows
                 break;
             }
