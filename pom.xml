@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ca.zac</groupId>
-  <artifactId>mvn-stc</artifactId>
+  <artifactId>block-stc</artifactId>
   <packaging>jar</packaging>
   <version>1.0.0</version>
-  <name>stcmerger2</name>
+  <name>blockmerger</name>
   <url>http://maven.apache.org</url>
 
   <!-- compile warning-->
@@ -62,7 +62,7 @@
               <transformers>
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>ca.zac.mvnstc.ZTMerger</mainClass>
+                  <mainClass>ca.zac.blockstc.BlockMerger</mainClass>
                 </transformer>
               </transformers>
               <filters>
